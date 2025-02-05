@@ -162,10 +162,12 @@ function App() {
               </div>
             </div>
             <div className="cursor-container w-full absolute left-0 p-1 mt-[12rem] lg:mt-12">
-              <div className="overlay bg-transparent z-20 absolute h-full w-full"></div>
+              <div className="overlay bg-transparent z-20 absolute h-full w-full"
+              ref={headingRef}
+              ></div>
               <h3
                 className="text-[16vw] flex flex-wrap font-normal tracking-tight leading-none"
-                ref={headingRef}
+                
               >
                 Thirtysixstudio
               </h3>
