@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { ThemeProvider } from "./context/ThemeContext.js";
+import cursor from './img/cursor.png';
 import Navbar from "./Components/Navbar.jsx";
-import AnimatedCircle from './Components/AnimatedCircle';
+import AnimatedCircle from "./Components/AnimatedCircle";
 import LocomotiveScroll from "locomotive-scroll";
 import Canavas from "./Components/Canavas";
 import data from "./data.js";
@@ -13,7 +14,6 @@ function App() {
   const [showCanavas, setShowCanavas] = useState(false);
   const [themeMode, setThemeMode] = useState("light");
 
-  
   const lightTheme = () => {
     setThemeMode("light");
   };
@@ -40,16 +40,34 @@ function App() {
     const html = document.querySelector("html");
     html.classList.remove("light", "dark");
     html.classList.add(themeMode);
-    // cursor
-    // const screen = document.querySelector('.screen');
+    const cursorContainer = document.querySelector(".cursor-container");
     const cursor = document.querySelector(".curosr");
 
+    cursorContainer.addEventListener("mouseenter", () => {
+      const img = cursor.firstChild
+      img.classList.remove("hidden");
+      img.classList.add("z-10");
+      gsap.to(cursor, { 
+          duration: 0.5,
+          ease:'power4.out',
+        });
+    });
+    cursorContainer.addEventListener("mouseleave", () => {
+      const img = cursor.firstChild;
+      img.classList.add("hidden");
+      img.classList.remove("z-10");
+      gsap.to(cursor, { 
+         duration: 0.5,
+         ease:'power4.out',
+        });
+    });
     window.addEventListener("mousemove", (e) => {
       gsap.to(cursor, {
         x: e.clientX,
         y: e.clientY,
         duration: 0.2,
-        ease: "circ.inOut",
+        opacity: 100,
+        ease: "power1.inOut",
       });
     });
   }, [themeMode]);
@@ -104,10 +122,12 @@ function App() {
       <ThemeProvider value={{ themeMode, lightTheme, darkTheme }}>
         <div className="screen">
           <div
-            className={`curosr py-2 px-2 rounded-full ${
+            className={`curosr opacity-0  py-2 px-2 rounded-full ${
               showCanavas ? "bg-[#fcfcfc]" : "bg-[#fd2c2a]"
             } fixed z-50`}
-          ></div>
+          >
+            <img src={cursor} className="hidden h-12 w-12" alt="chili" />
+          </div>
         </div>
         <span
           ref={growingRef}
@@ -138,10 +158,11 @@ function App() {
                 </div>
               </div>
               <div className="lg:relative flex lg:block justify-center items-center lg:ml-[14%] px-4 w-full lg:w-[25%]">
-                <AnimatedCircle/>
+                <AnimatedCircle />
               </div>
             </div>
-            <div className="w-full absolute left-0 p-1 mt-[12rem] lg:mt-12">
+            <div className="cursor-container w-full absolute left-0 p-1 mt-[12rem] lg:mt-12">
+              <div className="overlay bg-transparent z-20 absolute h-full w-full"></div>
               <h3
                 className="text-[16vw] flex flex-wrap font-normal tracking-tight leading-none"
                 ref={headingRef}
