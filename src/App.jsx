@@ -167,7 +167,6 @@ function App() {
               ></div>
               <h3
                 className="text-[16vw] flex flex-wrap font-normal tracking-tight leading-none"
-                
               >
                 Thirtysixstudio
               </h3>
